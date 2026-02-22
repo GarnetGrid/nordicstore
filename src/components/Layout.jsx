@@ -1,6 +1,6 @@
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import { ShoppingBag, Menu, X, User } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import { CartDrawer } from './CartDrawer';
@@ -12,6 +12,31 @@ export function Layout() {
     const location = useLocation();
 
     const isAdmin = location.pathname.startsWith('/admin');
+
+    // Anti-copy protection
+    useEffect(() => {
+        const noCtx = (e) => e.preventDefault();
+        const noDrag = (e) => e.preventDefault();
+        const noKeys = (e) => {
+            const k = e.key, cm = e.ctrlKey || e.metaKey;
+            if ((cm && (k === 'u' || k === 's' || k === 'a' || k === 'c')) ||
+                (cm && e.shiftKey && (k === 'I' || k === 'J' || k === 'C')) ||
+                k === 'F12') {
+                e.preventDefault();
+            }
+        };
+        document.documentElement.style.userSelect = 'none';
+        document.documentElement.style.webkitUserSelect = 'none';
+        document.addEventListener('contextmenu', noCtx);
+        document.addEventListener('dragstart', noDrag);
+        document.addEventListener('keydown', noKeys);
+        console.log('%c⚠️ This site is protected by GarnetGrid.', 'color:#e63946;font-size:14px;font-weight:bold;');
+        return () => {
+            document.removeEventListener('contextmenu', noCtx);
+            document.removeEventListener('dragstart', noDrag);
+            document.removeEventListener('keydown', noKeys);
+        };
+    }, []);
 
     if (isAdmin && !user) {
         // Ideally redirect to login here, but handled in protected route
