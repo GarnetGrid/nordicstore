@@ -4,6 +4,17 @@ import { supabase } from '../../lib/supabase';
 import { useCart } from '../../context/CartContext';
 import { Plus } from 'lucide-react';
 
+const MOCK_PRODUCTS = [
+    { id: 1, title: 'Merino Wool Crewneck', price: 89, category: 'apparel', images: ['https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=800&q=80'] },
+    { id: 2, title: 'Linen Blend Trousers', price: 120, category: 'apparel', images: ['https://images.unsplash.com/photo-1594938298603-c8148c4dae35?auto=format&fit=crop&w=800&q=80'] },
+    { id: 3, title: 'Canvas Weekender Bag', price: 195, category: 'accessories', images: ['https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=800&q=80'] },
+    { id: 4, title: 'Minimal Leather Watch', price: 250, category: 'accessories', images: ['https://images.unsplash.com/photo-1524592094714-0f0654e20314?auto=format&fit=crop&w=800&q=80'] },
+    { id: 5, title: 'Suede Chelsea Boots', price: 280, category: 'footwear', images: ['https://images.unsplash.com/photo-1638247025967-b4e38f787b76?auto=format&fit=crop&w=800&q=80'] },
+    { id: 6, title: 'White Leather Sneakers', price: 165, category: 'footwear', images: ['https://images.unsplash.com/photo-1549298916-b41d501d3772?auto=format&fit=crop&w=800&q=80'] },
+    { id: 7, title: 'Cashmere Scarf', price: 135, category: 'accessories', images: ['https://images.unsplash.com/photo-1520903920243-00d872a2d1c9?auto=format&fit=crop&w=800&q=80'] },
+    { id: 8, title: 'Oversized Cotton Tee', price: 55, category: 'apparel', compare_at_price: 75, images: ['https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=800&q=80'] },
+];
+
 export function Catalog() {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -14,18 +25,27 @@ export function Catalog() {
     useEffect(() => {
         async function fetchProducts() {
             setLoading(true);
-            let query = supabase.from('products').select('*');
-
-            if (categoryFilter) {
-                query = query.eq('category', categoryFilter);
-            }
-
-            const { data, error } = await query;
-
-            if (error) {
-                console.error('Error fetching products:', error);
-            } else {
-                setProducts(data || []);
+            try {
+                let query = supabase.from('products').select('*');
+                if (categoryFilter) {
+                    query = query.eq('category', categoryFilter);
+                }
+                const { data, error } = await query;
+                if (error || !data || data.length === 0) {
+                    // Fall back to mock data
+                    const filtered = categoryFilter
+                        ? MOCK_PRODUCTS.filter(p => p.category === categoryFilter)
+                        : MOCK_PRODUCTS;
+                    setProducts(filtered);
+                } else {
+                    setProducts(data);
+                }
+            } catch {
+                // Supabase not configured — use mock data
+                const filtered = categoryFilter
+                    ? MOCK_PRODUCTS.filter(p => p.category === categoryFilter)
+                    : MOCK_PRODUCTS;
+                setProducts(filtered);
             }
             setLoading(false);
         }
