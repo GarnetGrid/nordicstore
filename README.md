@@ -1,16 +1,39 @@
-# React + Vite
+# NordicStore
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Premium Minimalist E-commerce** — A modern React storefront with clean Scandinavian design.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- 🛍️ **Product Catalog** — Filterable by category with beautiful grid layout
+- 🛒 **Shopping Cart** — Slide-out drawer with real-time totals
+- 🔐 **Authentication** — Login/signup powered by Supabase
+- 📦 **Checkout Flow** — Complete order process
+- 🎛️ **Admin Dashboard** — Product management, order tracking, and analytics
+- 📱 **Fully Responsive** — Works on desktop, tablet, and mobile
 
-## React Compiler
+## Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **React 19** + React Router 7
+- **Vite 7** — Lightning-fast builds
+- **Supabase** — Auth, database, and real-time
+- **Lucide Icons** — Clean, consistent iconography
+- **CSS** — Custom design system with Inter + Playfair Display fonts
 
-## Expanding the ESLint configuration
+## Live Site
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+🌐 [nordicstore.garnetgrid.com](https://nordicstore.garnetgrid.com)
+
+## Development
+
+```bash
+npm install
+npm run dev
+```
+
+## Deployment
+
+Deployed to GitHub Pages via GitHub Actions. Push to `main` triggers automatic build and deploy.
+
+---
+
+Built by [GarnetGrid](https://garnetgrid.com)
